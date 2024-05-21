@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "blossom-nails",
+  "private_key_id": "119b3c15bab61369b1d47493114af5e654a7aac8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCzXt5kYFiJiXrz\nypDhrupgBpD80WRIh1SzpHwZq1dLE1krf4OVEfDxfQ9xhtaeL9LQ+6GGg6ISbDPl\n47fXfeaHxHV7cJ7V/W0KJSLBGBfNXBK7sdo9bmgW9Rf2l1eayEYnOVMvqf4Dtjsr\nglOMQ7sPqFBqOYsMHrRErpSsf8HtkWi0ZCOI5nJWbV4ARxDAMtnK07cy6cWSTP1u\n417S+TGgIQomoYAGmli1D7/XbcsZzzPKoMU7GY+OuwiqEo6rRb/BAdKnVIXci7qI\n6Ugyu57BQQ7ShE+xn06DvNnetgNPuvXR6HU9IkOdnlKRxoRgIAQVZw+X3kD/OhRm\njnWfxeKLAgMBAAECggEAVU2vRx5YzOQQkKOL3oCgnxVQW6O7ZRDTM/HsQQru41nq\nxNiKO9lB9J7Muuls5OMKh++7pCyy5b8GuXRgSH/sJDJGyvNG3q787d+2VQ1/uF7q\n28+b4i5BG3XpNRFJjOdlEZ9eE+Ns1dgS8MC0uha1/h7GS5ZdLeDmS2mZdCX4FOIO\nyOGLeumPZl7u0rPSAXcPsjaFXI03/6niWsimZtA9DQvVwTuMCYioqRJN8AahGo3e\nu7MEngiAuQFOsQDwnAbf8OvDLSPy+6XNNxHsuLtvi9E7grXpKZESLTbuO34qU1gs\nzxZFYAge7gN5OoesPXg6nNVMVixXbL6x1vnv6m7ldQKBgQDvn0wf7EZY3TQsn91e\n7nB90WijUgXu33uk4LGOgltGXbkEmiiuNpBj4Mf9UeOeMvB5plsSEJiy7UPZSyCH\n7ReLX7FI7a/T8y0KotEdFVRDu94uDo/rxwW3JR+Dt89wJcRgBqqDTOS4tHzE4IFN\nLpQoD+ruKuPiU/jljraOwLhfdQKBgQC/oVb6LLWiGsip75reQ+/lBX6laXuffswf\nMqpU41+sNXVZmlemh6y6vXq606nlRM9l5LNM+JAslSlFxFzgkfAG/BqaHtfWIhZO\nHa74IZh0ZSfPiaeRmeHWPBqalsjCu792Ow3f8q8a9xuBl/szKuwYK3MDEXKF2xHR\nbXDnM275/wKBgBLp+wNGDiNzimu/TqTwozZ7Mgw6LDe3sjXIeptqFLRQL4t6c52U\ntv77Pi3zqcjR8oNXqzaY0sTEz6c2M+Imx8X7jq3X/Rn4xuRhB6qJBXa3PIlcIuYU\ndpIHPx6RgrEyefaucAUfK6qcrICJzAsAkzc6UmvsPMKfqDTOeAB6m9MFAn9fEKsV\ncRiqUp85rqQln45jD1bEuI+bkEuzLm9RrXrI87xDt03ET4phGZ7JEDg4hOpeohZR\nGP5tH5JaChAJWFy7GlYYHzT0BfUKy68Baak4FPaq/p8inDRtE2QfTK5L7NgOzz0S\n3FICDpSWtc7ok2KMmwFzhDRMM2Gjg6d/CwUDAoGAQaUPEW4XLLyI4/0P8tVmwi6y\nohgWhgK3hn0Mda5Ku1pMFXcLUyzxFLg4EGtherSxQXB+vNxRX16THLvwIdrGC3bM\n288kVJ/mc4aBwKfY6PSKuI2Bem8XgzpkYDJA8JL4IY0LKRPHXSbDSnHcaDTcUiYa\n1BfRBshewzs+WtWCRb0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-jo4zn@blossom-nails.iam.gserviceaccount.com",
+  "client_id": "108925038472859075420",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-jo4zn%40blossom-nails.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

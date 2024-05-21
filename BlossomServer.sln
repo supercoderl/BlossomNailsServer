@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlossomServer", "BlossomServer.csproj", "{13B9B1AD-B58B-45E0-B312-D1BAD23A6C89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13B9B1AD-B58B-45E0-B312-D1BAD23A6C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B9B1AD-B58B-45E0-B312-D1BAD23A6C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B9B1AD-B58B-45E0-B312-D1BAD23A6C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B9B1AD-B58B-45E0-B312-D1BAD23A6C89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {072A17C4-9B00-4A0D-B6ED-679CB4619CA6}
+	EndGlobalSection
+EndGlobal
