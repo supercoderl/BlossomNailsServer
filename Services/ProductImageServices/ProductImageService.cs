@@ -14,7 +14,7 @@ namespace BlossomServer.Services.ProductImageServices
 		private readonly BlossomNailsContext _context;
 		private readonly IMapper _mapper;
 		private readonly IWebHostEnvironment _web;
-		private Cloudinary _cloudinary = new Cloudinary(new Account("do02vtlo0", "249919974662472", "_bvgpqXmViNhRrmocCnhhougqJc"));
+		private Cloudinary _cloudinary = new Cloudinary(new Account("", "", ""));
 
 		public ProductImageService(BlossomNailsContext context, IMapper mapper, IWebHostEnvironment web)
 		{
