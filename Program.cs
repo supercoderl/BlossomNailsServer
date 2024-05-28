@@ -21,9 +21,6 @@ using BlossomServer.Services.ProductImageServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Set environment
-Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"F:/Workspace/BlossomNails/BlossomServer/wwwroot/config/blossom-nails-firebase-sdk.json");
-
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
