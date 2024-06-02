@@ -53,7 +53,7 @@ namespace BlossomServer.Controllers
 					}
 					break;
 				case "booking":
-					var bookings = await _bookingService.GetBookings();
+					var bookings = await _bookingService.GetBookings(null);
 					if (bookings.Data != null)
 					{
 						var file = _fileService.CreateFile(bookings.Data);

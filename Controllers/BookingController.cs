@@ -1,5 +1,6 @@
 ﻿using BlossomServer.Datas.Booking;
 using BlossomServer.Datas.ServiceBooking;
+using BlossomServer.Datas.User;
 using BlossomServer.Services.BookingServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace BlossomServer.Controllers
 		}
 
 		[HttpGet("bookings")]
-		public async Task<IActionResult> GetBookings()
+		public async Task<IActionResult> GetBookings([FromQuery] FilterBooking? filterObject)
 		{
-			var result = await _bookingService.GetBookings();
+			var result = await _bookingService.GetBookings(filterObject);
 			return StatusCode(result.Status, result);
 		}
 

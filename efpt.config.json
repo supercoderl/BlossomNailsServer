@@ -28,6 +28,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[MessageChat]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Notification]",
          "ObjectType": 0
       },
@@ -37,6 +41,10 @@
       },
       {
          "Name": "[dbo].[Role]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Room]",
          "ObjectType": 0
       },
       {

@@ -8,7 +8,7 @@ namespace BlossomServer.Services.BookingServices
 	{
 		Task<ApiResponse<BookingProfile>> CreateBooking(CreateBookingRequest booking);
 		Task<ApiResponse<string>> AddServiceToBooking(CreateServiceBookingListRequest requests);
-		Task<ApiResponse<List<BookingProfile>>> GetBookings();
+		Task<ApiResponse<List<BookingProfile>>> GetBookings(FilterBooking? filter);
 		Task<ApiResponse<List<ServiceBookingProfile>>> GetServiceByBookingID(int bookingID);
 		Task<ApiResponse<BookingProfile>> GetBookingByID(int bookingID);
 		Task<ApiResponse<BookingProfile>> GetBookingByCustomer(Guid? customerID);

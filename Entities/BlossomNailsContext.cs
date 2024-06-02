@@ -19,11 +19,15 @@ public partial class BlossomNailsContext : DbContext
 
     public virtual DbSet<Contact> Contacts { get; set; }
 
+    public virtual DbSet<MessageChat> MessageChats { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<ResetPassword> ResetPasswords { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<Room> Rooms { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
 
@@ -41,12 +45,17 @@ public partial class BlossomNailsContext : DbContext
     {
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingID).HasName("PK__tmp_ms_x__73951ACD54E375E0");
+            entity.HasKey(e => e.BookingID).HasName("PK__tmp_ms_x__73951ACDD07D380E");
 
             entity.ToTable("Booking");
 
-            entity.Property(e => e.BookingDate).HasColumnType("date");
+            entity.Property(e => e.BookingDate)
+                .HasMaxLength(10)
+                .IsUnicode(false);
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CustomerEmail)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.CustomerName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -104,6 +113,20 @@ public partial class BlossomNailsContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<MessageChat>(entity =>
+        {
+            entity.HasKey(e => e.MessageID).HasName("PK__MessageC__C87C037CE96848B7");
+
+            entity.ToTable("MessageChat");
+
+            entity.Property(e => e.DateSent).HasColumnType("datetime");
+            entity.Property(e => e.Message).HasColumnType("ntext");
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Notification>(entity =>
         {
             entity.HasKey(e => e.NotificationID).HasName("PK__Notifica__20CF2E329CE12BEA");
@@ -148,6 +171,15 @@ public partial class BlossomNailsContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Room>(entity =>
+        {
+            entity.HasKey(e => e.RoomID).HasName("PK__tmp_ms_x__328639191AAFA7C2");
+
+            entity.ToTable("Room");
+
+            entity.Property(e => e.RoomID).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Service>(entity =>

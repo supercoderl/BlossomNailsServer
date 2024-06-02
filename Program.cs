@@ -18,6 +18,11 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using BlossomServer.Services.EmailService;
 using BlossomServer.Services.ProductImageServices;
+using BlossomServer.Services.WhatsappServices;
+using BlossomServer.Services.PaymentServices;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using BlossomServer.Datas.Chat;
+using BlossomServer.Services.ChatServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,58 +31,59 @@ Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"F:/Worksp
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
-				{
-					options.SaveToken = true;
-					options.TokenValidationParameters = new TokenValidationParameters
-					{
-						ValidateIssuer = true,
-						ValidateAudience = true,
-						ValidateLifetime = true,
-						ValidateIssuerSigningKey = true,
-						ValidIssuer = builder.Configuration["JWT_Configuration:Issuer"],
-						ValidAudience = builder.Configuration["JWT_Configuration:Audience"],
-						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_Configuration:SecretKey"]!))
-					};
-				}).AddJwtBearer("Firebase", options =>
-				{
-					options.Authority = builder.Configuration["Firebase_Configuration:Issuer"];
-					options.TokenValidationParameters = new TokenValidationParameters
-					{
-						ValidateIssuer = true,
-						ValidIssuer = builder.Configuration["Firebase_Configuration:Issuer"],
-						ValidateAudience = true,
-						ValidAudience = builder.Configuration["Firebase_Configuration:Audience"],
-						ValidateLifetime = true
-					};
-				});
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["JWT_Configuration:Issuer"],
+                        ValidAudience = builder.Configuration["JWT_Configuration:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_Configuration:SecretKey"]!))
+                    };
+                }).AddJwtBearer("Firebase", options =>
+                {
+                    options.Authority = builder.Configuration["Firebase_Configuration:Issuer"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Firebase_Configuration:Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Firebase_Configuration:Audience"],
+                        ValidateLifetime = true
+                    };
+                });
 
 builder.Services.AddDbContext<BlossomNailsContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("MongoDBConfiguration"));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddCors(options =>
 {
-	options.AddDefaultPolicy(x => x.WithOrigins(
-		"http://localhost:3000", 
-		"http://localhost:3001",
-		"https://blossom-nails-client.vercel.app",
-		"https://blossom-nails-admin.vercel.app",
-		"https://localhost:7176"
-		).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+    options.AddDefaultPolicy(x => x.WithOrigins(
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://blossom-nails-client.vercel.app",
+        "https://blossom-nails-admin.vercel.app",
+        "https://localhost:7176"
+        ).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 });
 
 builder.Services.Configure<FormOptions>(options =>
 {
-	options.ValueLengthLimit = int.MaxValue;
-	options.MultipartBodyLengthLimit = int.MaxValue;
-	options.MemoryBufferThreshold = int.MaxValue;
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = int.MaxValue;
+    options.MemoryBufferThreshold = int.MaxValue;
 });
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(e => e.MaximumReceiveMessageSize = 102400000);
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -90,9 +96,14 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
+builder.Services.AddScoped<IWhatsappService, WhatsappService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IChatService, ChatService>();
 /*builder.Services.AddScoped<IEmailService, EmailService>();*/
 
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(opts => new Dictionary<string, UserConnection>());
+builder.Services.AddSingleton<IDictionary<string, ChatConnection>>(opts => new Dictionary<string, ChatConnection>());
 builder.Services.AddSingleton(builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
 builder.Services.AddControllers();
@@ -100,34 +111,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-	c.SwaggerDoc("v1", new OpenApiInfo
-	{
-		Title = "Blossom Nails API",
-		Version = "v1"
-	});
-	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-	{
-		Name = "Authorization",
-		Type = SecuritySchemeType.ApiKey,
-		Scheme = "Bearer",
-		BearerFormat = "JWT",
-		In = ParameterLocation.Header,
-		Description = "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\""
-	});
-	c.AddSecurityRequirement(new OpenApiSecurityRequirement
-				{
-					{
-						new OpenApiSecurityScheme
-						{
-							Reference = new OpenApiReference
-							{
-								Type = ReferenceType.SecurityScheme,
-								Id = "Bearer"
-							}
-						},
-						new string[] {}
-					}
-				});
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Blossom Nails API",
+        Version = "v1"
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\""
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
 });
 
 var app = builder.Build();
@@ -153,3 +164,4 @@ app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
+//app.Run("http://0.0.0.0:80"); Change port here to EXPOSE in docker
