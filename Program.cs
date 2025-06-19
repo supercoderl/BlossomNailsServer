@@ -56,6 +56,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(dbConnectionString, b => b.MigrationsAssembly("BlossomServer.Infrastructure"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("policy", x =>
+        x.SetIsOriginAllowed(x => _ = true)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
+});
+
 builder.Services.AddSwagger();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddInfrastructure("BlossomServer.Infrastructure", dbConnectionString!);
@@ -65,6 +74,8 @@ builder.Services.AddSortProviders();
 builder.Services.AddCommandHandlers();
 builder.Services.AddNotificationHandlers();
 builder.Services.AddApiUser();
+builder.Services.AddBunnyCDN(builder.Configuration);
+builder.Services.AddHttpClient();
 
 builder.Services.AddMassTransit(x =>
 {
@@ -151,6 +162,8 @@ app.UseSwaggerUI();
 app.MapGrpcReflectionService();
 
 app.UseHttpsRedirection();
+
+app.UseCors("policy");
 
 app.UseAuthentication();
 app.UseAuthorization();

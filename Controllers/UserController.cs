@@ -1,17 +1,16 @@
-﻿using BlossomServer.Application.SortProviders;
+﻿using BlossomServer.Application.Interfaces;
+using BlossomServer.Application.SortProviders;
+using BlossomServer.Application.ViewModels;
 using BlossomServer.Application.ViewModels.Sorting;
 using BlossomServer.Application.ViewModels.Users;
-using BlossomServer.Application.ViewModels;
+using BlossomServer.Domain.Entities;
 using BlossomServer.Domain.Notifications;
 using BlossomServer.Models;
 using BlossomServer.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using BlossomServer.Application.Interfaces;
-using BlossomServer.Domain.Entities;
 
 namespace BlossomServer.Controllers
 {
@@ -24,7 +23,8 @@ namespace BlossomServer.Controllers
 
         public UserController(
             INotificationHandler<DomainNotification> notifications,
-            IUserService userService) : base(notifications)
+            IUserService userService
+        ) : base(notifications)
         {
             _userService = userService;
         }
@@ -66,6 +66,7 @@ namespace BlossomServer.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [SwaggerOperation("Create a new user")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<Guid>))]
         public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserViewModel viewModel)
@@ -86,28 +87,38 @@ namespace BlossomServer.Controllers
         [HttpPut]
         [SwaggerOperation("Update a user")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<UpdateUserViewModel>))]
-        public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserViewModel viewModel)
+        public async Task<IActionResult> UpdateUserAsync([FromForm] UpdateUserViewModel viewModel)
         {
             await _userService.UpdateUserAsync(viewModel);
             return Response(viewModel);
         }
 
-/*        [HttpPost("changePassword")]
+        [HttpPost("changePassword")]
         [SwaggerOperation("Change a password for the current active user")]
         [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<ChangePasswordViewModel>))]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordViewModel viewModel)
         {
             await _userService.ChangePasswordAsync(viewModel);
             return Response(viewModel);
-        }*/
+        }
 
         [HttpPost("login")]
         [AllowAnonymous]
         [SwaggerOperation("Get a signed token for a user")]
-        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<string>))]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<object>))]
         public async Task<IActionResult> LoginUserAsync([FromBody] LoginUserViewModel viewModel)
         {
             var token = await _userService.LoginUserAsync(viewModel);
+            return Response(token);
+        }
+
+        [HttpPost("refresh-token")]
+        [AllowAnonymous]
+        [SwaggerOperation("Get a signed token for a user")]
+        [SwaggerResponse(200, "Request successful", typeof(ResponseMessage<object>))]
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenViewModel viewModel)
+        {
+            var token = await _userService.RefreshTokenAsync(viewModel);
             return Response(token);
         }
     }
